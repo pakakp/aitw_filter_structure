@@ -19,11 +19,10 @@ import os
 import sys
 
 import numpy as np
-from scipy import ndimage
 import vtk
-from vtk.util import numpy_support
 from numba import jit
-
+from scipy import ndimage
+from vtk.util import numpy_support
 
 # ══════════════════════════════════════════════════════════════════════════════
 # NUMBA-OPTIMIZED FUNCTIONS
@@ -437,10 +436,10 @@ def adjust_porosity_post(arr, target, geometry_slice=None, verbose=False):
         # Binary search update
         if porosity_test < target:
             # Need more pore → increase threshold (shift boundary into solid)
-            threshold_min = threshold_mid
+            threshold_max = threshold_mid
         else:
             # Need more solid → decrease threshold (shift boundary into pore)
-            threshold_max = threshold_mid
+            threshold_min = threshold_mid
         
         # Safety: if search range is too small, we're done
         if abs(threshold_max - threshold_min) < 1e-6:
